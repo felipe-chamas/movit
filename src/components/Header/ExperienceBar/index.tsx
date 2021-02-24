@@ -7,7 +7,7 @@ const ExperienceBar: React.FC = () => {
   return (
     <Container>
       <span>0 xp</span>
-      <div className='bar'>
+      <div>
         <div style={{ width: percentage }} />
         <span style={{ left: percentage }}>300 xp</span>
       </div>

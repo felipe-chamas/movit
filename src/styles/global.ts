@@ -56,7 +56,7 @@ const GlobalStyle = createGlobalStyle`
 
   .app {
     height: 100vh;
-    max-width: 992px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 2.5rem 2rem;
     display: flex;

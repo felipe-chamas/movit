@@ -6,6 +6,7 @@ module.exports = {
   extends: [
     'react-app',
     'airbnb',
+    'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'plugin:import/typescript'
@@ -52,6 +53,9 @@ module.exports = {
     'react/jsx-curly-newline': 'off',
     'no-use-before-define': 'off',
     'react/require-default-props': 'off'
+  },
+  globals: {
+    React: 'writable'
   },
   settings: {
     'import/parsers': {
