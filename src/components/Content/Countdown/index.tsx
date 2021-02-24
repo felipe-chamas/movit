@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { ChallengesContext } from '../../../contexts/ChallengesContext'
 import { Container, Button } from './styles'
 
+let timeoutHandler: NodeJS.Timeout
+
 const Countdown: React.FC = () => {
-  const [time, setTime] = useState(25 * 60)
-  const [active, setActive] = useState(false)
+  const { startNewChallenge } = useContext(ChallengesContext)
+
+  const [time, setTime] = useState(0.1 * 60)
+  const [isActive, setIsActive] = useState(false)
+  const [hasFinished, setHasFinished] = useState(false)
 
   const minutes = Math.floor(time / 60)
   const seconds = time % 60
@@ -11,15 +17,23 @@ const Countdown: React.FC = () => {
   const [minuteLeft, minuteRight] = String(minutes).padStart(2, '0').split('')
   const [secondLeft, secondRight] = String(seconds).padStart(2, '0').split('')
 
-  const startCountDown = () => {
-    setActive(true)
+  const handleCountDown = () => {
+    if (isActive) {
+      clearTimeout(timeoutHandler)
+      setTime(0.1 * 60)
+    }
+    setIsActive(!isActive)
   }
 
   useEffect(() => {
-    if (active && time > 0) {
-      setTimeout(() => setTime(time - 1), 1000)
+    if (isActive && time > 0) {
+      timeoutHandler = setTimeout(() => setTime(time - 1), 1000)
+    } else if (isActive && time === 0) {
+      setHasFinished(true)
+      setIsActive(false)
+      startNewChallenge()
     }
-  }, [active, time])
+  }, [isActive, time])
 
   return (
     <>
@@ -34,8 +48,8 @@ const Countdown: React.FC = () => {
           <span>{secondRight}</span>
         </div>
       </Container>
-      <Button type='button' onClick={startCountDown}>
-        Iniciar um ciclo
+      <Button disabled={hasFinished} type='button' onClick={handleCountDown} active={isActive}>
+        {hasFinished ? 'Ciclo encerrado' : isActive ? 'Abandonar ciclo' : 'Iniciar um ciclo'}
       </Button>
     </>
   )
