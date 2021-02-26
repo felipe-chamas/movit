@@ -15,7 +15,7 @@ interface CountdownContextData {
 }
 
 let timeoutHandler: NodeJS.Timeout
-const initialTime = 0.1 * 60
+const initialTime = 25 * 60
 
 export const CountdownContext = createContext<CountdownContextData>({} as CountdownContextData)
 
